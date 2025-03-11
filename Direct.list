@@ -5,17 +5,13 @@
 DOMAIN-SUFFIX,time.windows.com
 DOMAIN-SUFFIX,lanzov.com
 DOMAIN-SUFFIX,hao123.com
-#Fac的 emby 服全部直连
 DOMAIN-SUFFIX,makima.online
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,baidu
 DOMAIN-KEYWORD,mozilla
-# tailscale全部直连，解决不能访问内网的问题
 DOMAIN-KEYWORD,tailscale
-# 群晖相关链接全部直连
 DOMAIN-KEYWORD,synology
-#tailscale进程全部直连，解决不能访问内网的问题
 PROCESS-NAME,tailscaled
 
 # IP段匹配

@@ -1,13 +1,5 @@
-# 自用的 emby 分流
-DOMAIN-KEYWORD,baidu
-# 好鸭
 DOMAIN-SUFFIX,niceduck.lol
-# HXD
 DOMAIN-SUFFIX,as174.de
-# 1111
 DOMAIN-SUFFIX,xmsl.org
-# 匹配域名关键字(交由Proxy代理服务器组) manhuagui
 DOMAIN-KEYWORD,manhuagui
-# 匹配域名关键字(交由Proxy代理服务器组) manhuagui-hamreus
 DOMAIN-KEYWORD,hamreus
-
