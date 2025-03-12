@@ -140,7 +140,7 @@ proxy-groups:
   - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan|🇯🇵))^((?!(港|台|韩|新|美)).)*$" }
   - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(🇺🇸|美|US|凤凰|圣何塞|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
   - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连|测试|Emby专用节点|官网|套餐|剩余)).)*$"}
-  - {name: ⭐ emby专用, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(直连|日|JP|美|US|凤凰|圣何塞|测试|Emby专用节点|官网|套餐|剩余|🇺🇸)).*"}
+  - {name: ⭐ emby专用, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(直连|日|JP|美|US|凤凰|圣何塞|测试|Emby专用节点|官网|套餐|剩余|🇺🇸|🇯🇵)).*"}
   - {name: 🌐 全部节点, type: select, include-all: true}
 rules:
   - RULE-SET,emby,⭐ emby专用
