@@ -18,6 +18,7 @@ PROCESS-NAME,tailscaled
 
 # IP段匹配
 IP-CIDR,219.146.1.66/32,no-resolve
+- SRC-IP-CIDR,192.168.0.207/32,DIRECT #BT不走代理
 
 # 国内DNS
 DOMAIN-SUFFIX,dns.alidns.com
