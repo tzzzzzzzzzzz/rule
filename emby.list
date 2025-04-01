@@ -1,6 +1,9 @@
 DOMAIN-SUFFIX,niceduck.lol
 DOMAIN-SUFFIX,as174.de
 DOMAIN-SUFFIX,xmsl.org
+DOMAIN-SUFFIX,zox.show
+
+# 漫画柜
 DOMAIN-KEYWORD,manhuagui
 DOMAIN-KEYWORD,hamreus
-DOMAIN-SUFFIX,zox.show
+DOMAIN-KEYWORD,mhgui

@@ -103,12 +103,15 @@ dns:
     - "+.ntp1.aliyun.com"
     - "+.ntp.ntsc.ac.cn"
     - "+.cn.ntp.org.cn"
+  # 解析那么 server的dns地址
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  # 解析订阅链接的dns地址
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  # 默认使用的dns地址
   nameserver:
     - 223.5.5.5
     - 119.29.29.29

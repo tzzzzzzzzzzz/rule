@@ -2,10 +2,12 @@
 
 # MyList
 # 域名后缀匹配
+DOMAIN-SUFFIX,tianxiyou.site
 DOMAIN-SUFFIX,time.windows.com
 DOMAIN-SUFFIX,lanzov.com
 DOMAIN-SUFFIX,hao123.com
 DOMAIN-SUFFIX,makima.online
+# DOMAIN-SUFFIX,zox.show
 DOMAIN-SUFFIX,firefox.com
 DOMAIN-SUFFIX,apple.com
 
