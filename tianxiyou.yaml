@@ -1,6 +1,7 @@
 # 机场订阅，名称不能重复
+# 更新日期：202504009
 proxy-providers:
-  Airport_01:
+  nezha:
     type: http
     interval: 1800
     health-check:
@@ -8,17 +9,8 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
     proxy: 全球直连
-    url: "1"
-# proxy-providers:
-  Airport_02:
-    type: http
-    interval: 1800
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-    proxy: 全球直连
-    url: "2"
+    url: ""
+
 
 # ua
 global-ua: clash.meta
@@ -52,7 +44,7 @@ profile:
   store-selected: true
   store-fake-ip: true
   
-# 流量嗅探
+# 嗅探
 sniffer:
   enable: true
   sniff:
@@ -64,34 +56,41 @@ sniffer:
     QUIC:
       ports: [443, 8443]
   force-domain:
-    - +.v2ex.com
+    - "+.v2ex.com"
   skip-domain:
+    - "rule-set:private_domain,cn_domain"
     - "dlg.io.mi.com"
     - "+.push.apple.com"
     - "+.apple.com"
+    - "+.wechat.com"
+    - "+.qpic.cn"
+    - "+.qq.com"
+    - "+.wechatapp.com"
+    - "+.vivox.com"
+    - "+.oray.com"
+    - "+.sunlogin.net"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
     
-# 代理模式
+# 入站  
 tun:
   enable: true
+  # system/gvisor/mixed
   stack: mixed
-  dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
+  dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
   
+
 # DNS模块
 dns:
   enable: true
   listen: 0.0.0.0:1053
   ipv6: false
   respect-rules: true
-  # 模式切换 redir-host / fake-ip
   enhanced-mode: fake-ip
   fake-ip-range: 28.0.0.1/8
-  # 模式切换 whitelist/blacklist 
-  # 黑名单模式表示如果匹配成功则不返回 Fake-IP, 白名单模式时只有匹配成功才返回 Fake-IP
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - "rule-set:private_domain,cn_domain"
@@ -103,15 +102,11 @@ dns:
     - "+.ntp1.aliyun.com"
     - "+.ntp.ntsc.ac.cn"
     - "+.cn.ntp.org.cn"
-  # 解析那么 server的dns地址
   default-nameserver:
     - 223.5.5.5
-    - 119.29.29.29
-  # 解析订阅链接的dns地址
   proxy-server-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
-  # 默认使用的dns地址
+    - https://dns.alidns.com/dns-query
+  # namesever尽量用运营商提供的DNS
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -123,10 +118,12 @@ proxies:
   udp: true
  
 # 锚点
-pr: &pr {type: select, proxies: [🚀 节点选择, 🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 全球直连]}
+# pr: &pr {type: select, proxies: [🚀 节点选择, 🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 全球直连]}
+pr: &pr {type: select, proxies: [🚀 节点选择, ♻️ 自动选择,🪜 自建节点,✖️ 高倍率, 🌐 全部节点, 全球直连]}
 # 策略组
 proxy-groups:
-  - {name: 🚀 节点选择, type: select, proxies: [🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 全球直连]}
+  # - {name: 🚀 节点选择, type: select, proxies: [🔯 香港故转, 🔯 日本故转, ♻️ 香港自动, ♻️ 日本自动, ♻️ 美国自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇺🇲 美国节点, 🌐 全部节点, 全球直连]}
+  - {name: 🚀 节点选择, type: select, proxies: [♻️ 自动选择,🪜 自建节点,✖️ 高倍率, 🌐 全部节点, 全球直连]}
   - {name: 📹 YouTube,!!merge <<: *pr}  
   - {name: 👨🏿‍💻 GitHub,!!merge <<: *pr}
   - {name: 🪟 Microsoft, type: select, proxies: [全球直连, 🚀 节点选择]}
@@ -134,16 +131,18 @@ proxy-groups:
   - {name: 🍎 Apple, type: select, proxies: [全球直连, 🚀 节点选择]}
   - {name: 🎯 全球直连, type: select, proxies: [全球直连, 🚀 节点选择]}
   - {name: 🐟 漏网之鱼, type: select, proxies: [全球直连, 🚀 节点选择]}
-  - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?i)港|hk|hongkong|hong kong|🇭🇰"}
-  - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?i)日|jp|japan|🇯🇵"}
-  - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states|🇺🇸"}
-  - {name: 🔯 香港故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong|🇭🇰))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: 🔯 日本故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan|🇯🇵))^((?!(港|台|韩|新|美)).)*$" }
-  - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong|🇭🇰))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan|🇯🇵))^((?!(港|台|韩|新|美)).)*$" }
-  - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(🇺🇸|美|US|凤凰|圣何塞|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
-  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连|测试|Emby专用节点|官网|套餐|剩余)).)*$"}
-  - {name: ⭐ emby专用, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(直连|日|JP|美|US|凤凰|圣何塞|测试|Emby专用节点|官网|套餐|剩余|🇺🇸|🇯🇵)).*"}
+  - {name: 🪜 自建节点, type: select, use: ["zijian"]}
+  - {name: ✖️ 高倍率, type: select, include-all: true, filter: "(?i)专线|2x|5x|6x|7x|8x|9x|10x|11x|12x|13x|14x|15x|16x|17x|18x|19x|20x"}
+  # - {name: 🇭🇰 香港节点, type: select, include-all: true, filter: "(?i)港|hk|hongkong|hong kong|🇭🇰"}
+  # - {name: 🇯🇵 日本节点, type: select, include-all: true, filter: "(?i)日|jp|japan|🇯🇵"}
+  # - {name: 🇺🇲 美国节点, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states|🇺🇸"}
+  # - {name: 🔯 香港故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong|🇭🇰))^((?!(台|日|韩|新|深|美)).)*$"}
+  # - {name: 🔯 日本故转, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan|🇯🇵))^((?!(港|台|韩|新|美)).)*$" }
+  # - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong|🇭🇰))^((?!(台|日|韩|新|深|美)).)*$"}
+  # - {name: ♻️ 日本自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|JP|(?i)Japan|🇯🇵))^((?!(港|台|韩|新|美)).)*$" }
+  # - {name: ♻️ 美国自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(🇺🇸|美|US|凤凰|圣何塞|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: ♻️ 自动选择, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^((?!(直连|续费|测试|Emby专用节点|官网|套餐|剩余|专线)).)*$"}
+  - {name: ⭐ emby专用, type: url-test, use: ["nezha","zijian"], tolerance: 20, interval: 300, filter: "^(?!.*(直连|续费|日|JP|测试|Emby专用节点|官网|套餐|剩余|🇯🇵|🇭🇰)).*"}
   - {name: 🌐 全部节点, type: select, include-all: true}
 rules:
   - RULE-SET,emby,⭐ emby专用
@@ -169,7 +168,7 @@ rule-providers:
   emby: {!!merge <<: *class, url: "https://raw.githubusercontent.com/tzzzzzzzzzzz/rule/refs/heads/main/emby.list"}
   direct_tianxiyou: {!!merge <<: *class, url: "https://raw.githubusercontent.com/tzzzzzzzzzzz/rule/refs/heads/main/Direct.list"}
   private_domain: {!!merge <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
-  proxylite: {!!merge <<: *class, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/master/ProxyLite.list"}
+  proxylite: {!!merge <<: *class, url: "https://raw.githubusercontent.com/tzzzzzzzzzzz/rule/refs/heads/main/ProxyLite.list"}
   youtube_domain: {!!merge <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   github_domain: {!!merge <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
   telegram_domain: {!!merge <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
